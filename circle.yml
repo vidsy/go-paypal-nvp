@@ -1,0 +1,13 @@
+general:
+  branches:
+    ignore:
+      - master
+
+dependencies:
+  override:
+    - echo "No deps here!"
+
+test:
+  override:
+    - echo "Checking if value of VERSION file exists as Git tag..."
+    - make check-version

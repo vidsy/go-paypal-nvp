@@ -6,13 +6,13 @@ import (
 
 const (
 
-	// Base API endpoint for NVP requests
+	// Base API endpoint for NVP requests.
 	baseAPIEndpoint = "https://%s.paypal.com/nvp"
 
-	// Sandbox prefix for api signature requests
+	// Sandbox prefix for api signature requests.
 	sandboxAPISignatureRequestPrefix = "api.sandbox"
 
-	// Live prefix for api signature requests
+	// Live prefix for api signature requests.
 	apiSignatureRequestPrefix = "api"
 )
 
@@ -29,10 +29,15 @@ type (
 	}
 )
 
+// NewClient Creates a new client.
 func NewClient(client TransportClient) *Client {
 	if client == nil {
 		client = &http.Client{}
 	}
 
 	return &Client{client}
+}
+
+// Execute performs the NVP request and returns the results.
+func (c Client) Execute(request Request) {
 }

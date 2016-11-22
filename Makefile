@@ -4,6 +4,8 @@ GO_BUILDER_IMAGE ?= "vidsyhq/go-builder"
 PATH_BASE ?= "/go/src/github.com/vidsy"
 REPONAME ?= "go-paypalnvp"
 
+DEFAULT: test
+
 check-version:
 	git fetch
 	(! git rev-list ${VERSION})
@@ -21,11 +23,11 @@ test:
 	-v "${CURDIR}":${PATH_BASE}/${REPONAME} \
 	-w ${PATH_BASE}/${REPONAME} \
 	--entrypoint=go \
-	${GO_BUILDER_IMAGE} test .
+	${GO_BUILDER_IMAGE} test . ./nvppayload
 
 test_ci:
 	@docker run \
 	-v "${CURDIR}":${PATH_BASE}/${REPONAME} \
 	-w ${PATH_BASE}/${REPONAME} \
 	--entrypoint=go \
-	${GO_BUILDER_IMAGE} test . -cover
+	${GO_BUILDER_IMAGE} test . ./nvppayload -cover

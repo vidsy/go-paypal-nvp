@@ -9,5 +9,6 @@ dependencies:
 
 test:
   override:
+    - make test
     - echo "Checking if value of VERSION file exists as Git tag..."
     - make check-version

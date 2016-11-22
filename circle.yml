@@ -3,6 +3,10 @@ general:
     ignore:
       - master
 
+machine:
+  services:
+    - docker
+
 dependencies:
   override:
     - echo "No deps here!"

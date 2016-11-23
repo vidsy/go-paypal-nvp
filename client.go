@@ -13,6 +13,9 @@ const (
 	sandboxAPISignatureRequestPrefix = "api.sandbox"
 	apiSignatureRequestPrefix        = "api"
 
+	//APIVersion version of the API to use.
+	APIVersion = "2.3"
+
 	// Sandsbox environment
 	Sandbox = "sandbox"
 
@@ -25,6 +28,9 @@ type (
 	Client struct {
 		client      TransportClient
 		environment string
+		User        string
+		Password    string
+		Signature   string
 	}
 
 	// TransportClient interface for client providing HTTP transport
@@ -35,16 +41,23 @@ type (
 )
 
 // NewClient Creates a new client.
-func NewClient(client TransportClient, environment string) *Client {
+func NewClient(client TransportClient, environment string, user string, password string, signature string) *Client {
 	if client == nil {
 		client = &http.Client{}
 	}
 
-	return &Client{client, environment}
+	return &Client{client, environment, user, password, signature}
 }
 
 // Execute performs the NVP request and returns the results.
 func (c Client) Execute(item payload.Serializer) (*Response, error) {
+	item.SetCredentials(
+		c.User,
+		c.Password,
+		c.Signature,
+		APIVersion,
+	)
+
 	data, err := item.Serialize()
 	if err != nil {
 		return nil, err

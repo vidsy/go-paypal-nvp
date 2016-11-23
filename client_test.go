@@ -14,6 +14,14 @@ type (
 	SerializedDataMock struct {
 		mockSerialize func() (string, error)
 	}
+
+	MockClient struct {
+		MockDo func(*http.Request) (*http.Response, error)
+	}
+
+	MockReadCloser struct {
+		io.Reader
+	}
 )
 
 func (sdm SerializedDataMock) Serialize() (string, error) {
@@ -24,15 +32,8 @@ func (sdm SerializedDataMock) Serialize() (string, error) {
 	return "SOME=Data", nil
 }
 
-type (
-	MockClient struct {
-		MockDo func(*http.Request) (*http.Response, error)
-	}
-
-	MockReadCloser struct {
-		io.Reader
-	}
-)
+func (sdm SerializedDataMock) SetCredentials(user string, password string, signature string, apiVersion string) {
+}
 
 func (mrc MockReadCloser) Close() error {
 	return nil
@@ -60,7 +61,7 @@ func NewMockResponse(response []byte) (*http.Response, error) {
 func TestClient(t *testing.T) {
 	t.Run("NewClient", func(t *testing.T) {
 		t.Run("CreatesClientWithDefaultHTTPClient", func(t *testing.T) {
-			client := paypalnvp.NewClient(nil, "test")
+			client := paypalnvp.NewClient(nil, "test", "user", "password", "signature")
 
 			if client == nil {
 				t.Fatalf("Expected new Client, got: %v", client)
@@ -71,7 +72,7 @@ func TestClient(t *testing.T) {
 	t.Run(".Execute", func(t *testing.T) {
 		t.Run("PerformsRequestWithSerializedData", func(t *testing.T) {
 			httpClient := MockClient{}
-			client := paypalnvp.NewClient(httpClient, "test")
+			client := paypalnvp.NewClient(httpClient, "test", "user", "password", "signature")
 			payload := SerializedDataMock{}
 			response, _ := client.Execute(payload)
 
@@ -82,7 +83,7 @@ func TestClient(t *testing.T) {
 
 		t.Run("ReturnsErrorOnSerializeError", func(t *testing.T) {
 			httpClient := MockClient{}
-			client := paypalnvp.NewClient(httpClient, "test")
+			client := paypalnvp.NewClient(httpClient, "test", "user", "password", "signature")
 			payload := SerializedDataMock{
 				mockSerialize: func() (string, error) {
 					return "", errors.New("Serializer error")
@@ -101,14 +102,13 @@ func TestClient(t *testing.T) {
 					return nil, errors.New("Client error")
 				},
 			}
-			client := paypalnvp.NewClient(httpClient, "test")
+			client := paypalnvp.NewClient(httpClient, "test", "user", "password", "signature")
 			payload := SerializedDataMock{}
 			_, err := client.Execute(payload)
 
 			if err == nil {
 				t.Fatalf("Expected an error, got: %v", err)
 			}
-
 		})
 	})
 }

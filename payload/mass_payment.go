@@ -46,15 +46,20 @@ type (
 )
 
 // NewMassPayment creates a new MassPayment struct with defaults
-func NewMassPayment(user string, password string, signature string, receiverType string) *MassPayment {
+func NewMassPayment(currency string, receiverType string) *MassPayment {
 	return &MassPayment{
-		User:         user,
-		Password:     password,
-		Signature:    signature,
 		Method:       "MassPay",
-		CurrencyCode: "GBP",
+		CurrencyCode: currency,
 		ReceiverType: receiverType,
 	}
+}
+
+// Credentials sets credentials and API version.
+func (mp *MassPayment) SetCredentials(user string, password string, signature string, apiVersion string) {
+	mp.User = user
+	mp.Password = password
+	mp.Signature = signature
+	mp.Version = apiVersion
 }
 
 // AddItem Adds an item to the mass payment items array.

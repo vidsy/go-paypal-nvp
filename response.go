@@ -65,9 +65,11 @@ func (r Response) Successful() bool {
 // ErrorCount count of errors returned in response.
 func (r *Response) ErrorCount() int {
 	errorCount := 0
-	for key, _ := range *r.ParsedQueryParams {
-		if strings.Contains(key, "L_ERRORCODE") {
-			errorCount += 1
+	if r.ParsedQueryParams != nil {
+		for key, _ := range *r.ParsedQueryParams {
+			if strings.Contains(key, "L_ERRORCODE") {
+				errorCount += 1
+			}
 		}
 	}
 	return errorCount

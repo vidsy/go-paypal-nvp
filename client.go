@@ -10,8 +10,8 @@ import (
 
 const (
 	baseAPIEndpoint                  = "https://%s.paypal.com/nvp"
-	sandboxAPISignatureRequestPrefix = "api.sandbox"
-	apiSignatureRequestPrefix        = "api"
+	sandboxAPISignatureRequestPrefix = "api-3t.sandbox"
+	apiSignatureRequestPrefix        = "api-3t"
 
 	//APIVersion version of the API to use.
 	APIVersion = "2.3"
@@ -63,15 +63,21 @@ func (c Client) Execute(item payload.Serializer) (*Response, error) {
 		return nil, err
 	}
 
-	response, err := c.perform(data)
+	httpResponse, err := c.perform(data)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Response{Response: response}, nil
+	response, err := NewResponse(httpResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
 }
 
 func (c Client) perform(serializedData string) (*http.Response, error) {
+	fmt.Printf("%s - %s\n", c.generateEndpoint(), serializedData)
 	request, _ := http.NewRequest(
 		"POST",
 		c.generateEndpoint(),

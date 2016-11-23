@@ -25,23 +25,19 @@ func (sdm SerializedDataMock) Serialize() (string, error) {
 }
 
 type (
-	// MockClient used for mocking interactions with paypal nvp.
 	MockClient struct {
 		MockDo func(*http.Request) (*http.Response, error)
 	}
 
-	// MockReadCloser mock used as Body return for response.
 	MockReadCloser struct {
 		io.Reader
 	}
 )
 
-// Close Dummy method for implementing MockReadCloser interface.
 func (mrc MockReadCloser) Close() error {
 	return nil
 }
 
-// Do optionally calls a MockDo then returns a http.Response.
 func (mc MockClient) Do(req *http.Request) (*http.Response, error) {
 	if mc.MockDo != nil {
 		return mc.MockDo(req)

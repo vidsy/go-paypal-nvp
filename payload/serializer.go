@@ -1,4 +1,4 @@
-package nvppayload
+package payload
 
 type (
 	// Serializer interface for payloads that can be serialized

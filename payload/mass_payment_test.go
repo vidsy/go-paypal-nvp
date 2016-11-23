@@ -1,16 +1,16 @@
-package nvppayload_test
+package payload_test
 
 import (
 	"testing"
 
-	"github.com/vidsy/go-paypalnvp/nvppayload"
+	"github.com/vidsy/go-paypalnvp/payload"
 )
 
 func TestMassPayment(t *testing.T) {
 	t.Run(".AddItem", func(t *testing.T) {
 		t.Run("AddsToItemArray", func(t *testing.T) {
-			item := nvppayload.MassPaymentItem{}
-			massPayment := nvppayload.NewMassPayment("user", "password", "signature", nvppayload.ReceiverTypeEmail)
+			item := payload.MassPaymentItem{}
+			massPayment := payload.NewMassPayment("user", "password", "signature", payload.ReceiverTypeEmail)
 			massPayment.AddItem(item)
 
 			if len(massPayment.Items) != 1 {
@@ -21,7 +21,7 @@ func TestMassPayment(t *testing.T) {
 
 	t.Run(".Serialize", func(t *testing.T) {
 		t.Run("ReturnsErrorWhenNoDataSet", func(t *testing.T) {
-			massPayment := nvppayload.NewMassPayment("user", "password", "signature", nvppayload.ReceiverTypeEmail)
+			massPayment := payload.NewMassPayment("user", "password", "signature", payload.ReceiverTypeEmail)
 			_, err := massPayment.Serialize()
 
 			if err == nil {
@@ -30,16 +30,16 @@ func TestMassPayment(t *testing.T) {
 		})
 
 		t.Run("ReturnsCorrectlySerializedPayload", func(t *testing.T) {
-			massPayment := nvppayload.NewMassPayment("user", "password", "signature", nvppayload.ReceiverTypeEmail)
+			massPayment := payload.NewMassPayment("user", "password", "signature", payload.ReceiverTypeEmail)
 			massPayment.Version = "1.0"
 			massPayment.EmailSubject = "Test email"
-			itemOne := nvppayload.MassPaymentItem{
+			itemOne := payload.MassPaymentItem{
 				Email:  "test@test.com",
 				Amount: 1.50,
 				ID:     "123456789",
 				Note:   "A test transaction",
 			}
-			itemTwo := nvppayload.MassPaymentItem{
+			itemTwo := payload.MassPaymentItem{
 				Email:  "test@testtwo.com",
 				Amount: 1.60,
 				ID:     "1234567810",

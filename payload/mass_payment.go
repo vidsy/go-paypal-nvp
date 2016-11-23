@@ -1,4 +1,4 @@
-package nvppayload
+package payload
 
 import (
 	"errors"

@@ -23,11 +23,11 @@ test:
 	-v "${CURDIR}":${PATH_BASE}/${REPONAME} \
 	-w ${PATH_BASE}/${REPONAME} \
 	--entrypoint=go \
-	${GO_BUILDER_IMAGE} test . ./nvppayload
+	${GO_BUILDER_IMAGE} test . ./payload
 
 test_ci:
 	@docker run \
 	-v "${CURDIR}":${PATH_BASE}/${REPONAME} \
 	-w ${PATH_BASE}/${REPONAME} \
 	--entrypoint=go \
-	${GO_BUILDER_IMAGE} test . ./nvppayload -cover
+	${GO_BUILDER_IMAGE} test . ./payload -cover

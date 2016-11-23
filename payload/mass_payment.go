@@ -9,18 +9,18 @@ import (
 )
 
 const (
-	// receiverTypeEmail sets receiver type to email address.
+	// ReceiverTypeEmail sets receiver type to email address.
 	ReceiverTypeEmail = "EmailAddress"
 
-	// receiverTypePhone sets receiver type to phone number.
+	// ReceiverTypePhone sets receiver type to phone number.
 	ReceiverTypePhone = "PhoneNumber"
 
-	// receiverTypeUserID sets receiver type to user id.
+	// ReceiverTypeUserID sets receiver type to user id.
 	ReceiverTypeUserID = "UserID"
 )
 
 type (
-	//MassPayment payload for mass payment request.
+	// MassPayment payload for mass payment request.
 	MassPayment struct {
 		User         string `nvp_field:"USER"`
 		Password     string `nvp_field:"PWD"`

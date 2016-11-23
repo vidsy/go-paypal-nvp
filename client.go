@@ -9,15 +9,9 @@ import (
 )
 
 const (
-
-	// Base API endpoint for NVP requests.
-	baseAPIEndpoint = "https://%s.paypal.com/nvp"
-
-	// Sandbox prefix for api signature requests.
+	baseAPIEndpoint                  = "https://%s.paypal.com/nvp"
 	sandboxAPISignatureRequestPrefix = "api.sandbox"
-
-	// Live prefix for api signature requests.
-	apiSignatureRequestPrefix = "api"
+	apiSignatureRequestPrefix        = "api"
 
 	// Sandsbox environment
 	Sandbox = "sandbox"

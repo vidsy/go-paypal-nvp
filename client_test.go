@@ -2,6 +2,7 @@ package paypalnvp_test
 
 import (
 	"bytes"
+	"errors"
 	"io"
 	"net/http"
 	"testing"
@@ -10,10 +11,16 @@ import (
 )
 
 type (
-	SerializedDataMock struct{}
+	SerializedDataMock struct {
+		mockSerialize func() (string, error)
+	}
 )
 
 func (sdm SerializedDataMock) Serialize() (string, error) {
+	if sdm.mockSerialize != nil {
+		return sdm.mockSerialize()
+	}
+
 	return "SOME=Data", nil
 }
 
@@ -70,11 +77,42 @@ func TestClient(t *testing.T) {
 			httpClient := MockClient{}
 			client := paypalnvp.NewClient(httpClient, "test")
 			payload := SerializedDataMock{}
-			client.Execute(payload)
+			response, _ := client.Execute(payload)
 
-			// if response == nil {
-			// 	t.Fatalf("Expected response to be nil, got: %v", response)
-			// }
+			if response.StatusCode != 200 {
+				t.Fatalf("Expected StatusCode to be 200, got: %d", response.StatusCode)
+			}
+		})
+
+		t.Run("ReturnsErrorOnSerializeError", func(t *testing.T) {
+			httpClient := MockClient{}
+			client := paypalnvp.NewClient(httpClient, "test")
+			payload := SerializedDataMock{
+				mockSerialize: func() (string, error) {
+					return "", errors.New("Serializer error")
+				},
+			}
+			_, err := client.Execute(payload)
+
+			if err == nil {
+				t.Fatalf("Expected an error, got: %v", err)
+			}
+		})
+
+		t.Run("ReturnsErrorOnClientRequestError", func(t *testing.T) {
+			httpClient := MockClient{
+				MockDo: func(request *http.Request) (*http.Response, error) {
+					return nil, errors.New("Client error")
+				},
+			}
+			client := paypalnvp.NewClient(httpClient, "test")
+			payload := SerializedDataMock{}
+			_, err := client.Execute(payload)
+
+			if err == nil {
+				t.Fatalf("Expected an error, got: %v", err)
+			}
+
 		})
 	})
 }

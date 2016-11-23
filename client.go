@@ -61,20 +61,15 @@ func (c Client) Execute(item payload.Serializer) (*Response, error) {
 		return nil, err
 	}
 
-	fmt.Printf("%v", response)
 	return &Response{Response: response}, nil
 }
 
 func (c Client) perform(serializedData string) (*http.Response, error) {
-	request, err := http.NewRequest(
+	request, _ := http.NewRequest(
 		"POST",
 		c.generateEndpoint(),
 		bytes.NewBuffer([]byte(serializedData)),
 	)
-
-	if err != nil {
-		return nil, err
-	}
 
 	response, err := c.client.Do(request)
 	if err != nil {

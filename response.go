@@ -59,10 +59,6 @@ func (r Response) Successful() bool {
 		return false
 	}
 
-	if !strings.Contains(r.Acknowledgement, "Success") {
-		return false
-	}
-
 	return true
 }
 

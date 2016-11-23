@@ -62,23 +62,23 @@ func (mp *MassPayment) SetCredentials(user string, password string, signature st
 	mp.Version = apiVersion
 }
 
-// AddItem Adds an item to the mass payment items array.
+// AddItem adds an item to the mass payment items array.
 func (mp *MassPayment) AddItem(item MassPaymentItem) {
 	mp.Items = append(mp.Items, item)
 }
 
-// Serialize Convert struct into NVP key=value format for the masspayment.
+// Serialize convert struct into NVP key=value format for the masspayment.
 func (mp MassPayment) Serialize() (string, error) {
 	data := url.Values{}
-	mpType := reflect.TypeOf(mp)
-	mpValue := reflect.ValueOf(mp)
+	massPaymentType := reflect.TypeOf(mp)
+	massPaymentValue := reflect.ValueOf(mp)
 
-	for i := 0; i < mpType.NumField(); i++ {
-		field := mpType.Field(i)
+	for i := 0; i < massPaymentType.NumField(); i++ {
+		field := massPaymentType.Field(i)
 		if fieldTag, ok := field.Tag.Lookup("nvp_field"); ok {
-			valueContents := mpValue.Field(i).String()
+			valueContents := massPaymentValue.Field(i).String()
 			if valueContents != "" {
-				data.Set(fieldTag, mpValue.Field(i).String())
+				data.Set(fieldTag, massPaymentValue.Field(i).String())
 			}
 		}
 	}
@@ -94,7 +94,7 @@ func (mp MassPayment) Serialize() (string, error) {
 	return data.Encode(), nil
 }
 
-// Serialize Convert mass payment item into key=value pair and add to existing
+// Serialize convert mass payment item into key=value pair and add to existing
 // Values struct.
 func (mpi MassPaymentItem) Serialize(data *url.Values, index int) {
 	itemType := reflect.TypeOf(mpi)

@@ -14,8 +14,8 @@ With others coming soon.
 
 ### Authentication
 
-Only API credentials are supported at present, however the client takes a client that implements the `TransportClient` interface so 
-a http client can be created with client cert authentication setup and passed in.
+Only API credentials are supported at present, however the client takes a compatible http client that implements 
+the `TransportClient` interface so a `net/http` client can be created with client cert authentication setup and passed in.
 
 ### Example
 

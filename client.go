@@ -77,7 +77,6 @@ func (c Client) Execute(item payload.Serializer) (*Response, error) {
 }
 
 func (c Client) perform(serializedData string) (*http.Response, error) {
-	fmt.Printf("%s - %s\n", c.generateEndpoint(), serializedData)
 	request, _ := http.NewRequest(
 		"POST",
 		c.generateEndpoint(),

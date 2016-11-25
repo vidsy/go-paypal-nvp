@@ -21,7 +21,6 @@ func TestMassPayment(t *testing.T) {
 
 	t.Run(".Total()", func(t *testing.T) {
 		massPayment := payload.NewMassPayment("GBP", payload.ReceiverTypeEmail)
-		massPayment.EmailSubject = "Test email"
 		itemOne := payload.MassPaymentItem{
 			Amount: 10.50,
 		}

@@ -7,7 +7,7 @@ import (
 )
 
 func TestMassPayment(t *testing.T) {
-	t.Run(".AddItem", func(t *testing.T) {
+	t.Run(".AddItem()", func(t *testing.T) {
 		t.Run("AddsToItemArray", func(t *testing.T) {
 			item := payload.MassPaymentItem{}
 			massPayment := payload.NewMassPayment("GBP", payload.ReceiverTypeEmail)
@@ -19,7 +19,27 @@ func TestMassPayment(t *testing.T) {
 		})
 	})
 
-	t.Run(".Serialize", func(t *testing.T) {
+	t.Run(".Total()", func(t *testing.T) {
+		massPayment := payload.NewMassPayment("GBP", payload.ReceiverTypeEmail)
+		massPayment.EmailSubject = "Test email"
+		itemOne := payload.MassPaymentItem{
+			Amount: 10.50,
+		}
+		itemTwo := payload.MassPaymentItem{
+			Amount: 13.40,
+		}
+
+		massPayment.AddItem(itemOne)
+		massPayment.AddItem(itemTwo)
+
+		expectedTotal := 23.90
+		if massPayment.Total() != expectedTotal {
+			t.Fatalf("Expected .Total() to be %.2f, got '%.2f'", expectedTotal, massPayment.Total())
+		}
+
+	})
+
+	t.Run(".Serialize()", func(t *testing.T) {
 		t.Run("ReturnsErrorWhenNoDataSet", func(t *testing.T) {
 			massPayment := payload.NewMassPayment("GBP", payload.ReceiverTypeEmail)
 			_, err := massPayment.Serialize()

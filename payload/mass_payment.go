@@ -67,6 +67,16 @@ func (mp *MassPayment) AddItem(item MassPaymentItem) {
 	mp.Items = append(mp.Items, item)
 }
 
+// Total gives the total of all payments in the mass payment.
+func (mp MassPayment) Total() float64 {
+	total := 0.0
+	for _, item := range mp.Items {
+		total += item.Amount
+	}
+
+	return total
+}
+
 // Serialize convert struct into NVP key=value format for the masspayment.
 func (mp MassPayment) Serialize() (string, error) {
 	data := url.Values{}

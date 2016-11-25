@@ -23,16 +23,6 @@ type (
 		Build             string    `nvp_field:"BUILD"`
 		Errors            []ResponseError
 	}
-
-	// ResponseError struct for any errors returned from an NVP request.
-	ResponseError struct {
-		Code         string `nvp_field:"L_ERRORCODE%d"`
-		ShortMessage string `nvp_field:"L_SHORTMESSAGE%d"`
-		LongMessage  string `nvp_field:"L_LONGMESSAGE%d"`
-		SeverityCode string `nvp_field:"L_SEVERITYCODE%d"`
-		ParamID      string `nvp_field:"L_ERRORPARAMID%d"`
-		ParamValue   string `nvp_field:"L_ERRORPARAMVALUE%d"`
-	}
 )
 
 // NewResponse Creates new response from net/http response.

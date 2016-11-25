@@ -18,6 +18,14 @@ type (
 
 // Error Formatted error string based on properties.
 func (r ResponseError) Error() string {
-	return fmt.Sprintf("Code '%s', ShortMessage: '%s', LongMessage: '%s', SeverityCode: '%s', ParamID: '%s', ParamValue: '%s'", r.Code, r.ShortMessage, r.LongMessage, r.SeverityCode, r.ParamID, r.ParamValue)
+	return fmt.Sprintf(
+		"Code '%s', ShortMessage: '%s', LongMessage: '%s', SeverityCode: '%s', ParamID: '%s', ParamValue: '%s'",
+		r.Code,
+		r.ShortMessage,
+		r.LongMessage,
+		r.SeverityCode,
+		r.ParamID,
+		r.ParamValue,
+	)
 
 }

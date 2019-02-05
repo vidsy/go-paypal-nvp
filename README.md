@@ -1,3 +1,7 @@
+This repo is **archived**, and is now used for reference.
+
+---
+
 <h1 align="center">go-paypal-nvp</h1>
 
 <p align="center">
